@@ -1,0 +1,21 @@
+.register-page .page-container {
+  max-width: 500px;
+  margin: 50px auto;
+}
+
+.register-page h2 {
+  text-align: center;
+}
+
+.register-page .page-description {
+  text-align: center;
+}
+
+.register-page .placeholder-content {
+  text-align: center;
+}
+
+.register-page .page-footer {
+  text-align: center;
+  font-size: 0.95rem;
+}

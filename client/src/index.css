@@ -1,0 +1,51 @@
+:root {
+  /* Sports Theme Color Palette */
+  --primary-blue: #0066CC;
+  --victory-green: #00AA44;
+  --championship-gold: #FFB700;
+  --referee-yellow: #FFC107;
+  --red-card: #DC3545;
+  --stadium-gray: #6C757D;
+  --white: #FFFFFF;
+  --light-gray: #F8F9FA;
+  --dark-gray: #343A40;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, var(--light-gray) 0%, #E9ECEF 100%);
+  color: var(--dark-gray);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Oswald', 'Bebas Neue', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--victory-green);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}

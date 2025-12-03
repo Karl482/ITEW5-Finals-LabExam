@@ -1,0 +1,21 @@
+.login-page .page-container {
+  max-width: 500px;
+  margin: 50px auto;
+}
+
+.login-page h2 {
+  text-align: center;
+}
+
+.login-page .page-description {
+  text-align: center;
+}
+
+.login-page .placeholder-content {
+  text-align: center;
+}
+
+.login-page .page-footer {
+  text-align: center;
+  font-size: 0.95rem;
+}

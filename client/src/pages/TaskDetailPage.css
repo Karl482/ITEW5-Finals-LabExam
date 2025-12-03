@@ -1,0 +1,18 @@
+.task-detail-page .page-container {
+  max-width: 700px;
+  margin: 30px auto;
+}
+
+.task-detail-page h2 {
+  color: var(--victory-green);
+}
+
+.task-detail-page .placeholder-content {
+  border-color: var(--victory-green);
+}
+
+.task-detail-page .page-footer {
+  text-align: left;
+  border-top: none;
+  padding-top: 10px;
+}
