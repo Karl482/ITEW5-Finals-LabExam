@@ -37,7 +37,12 @@
   - Create method for password comparison
   - _Requirements: 1.1, 1.4_
 
-- [ ] 4. Implement Task model and database schema
+- [x] 4. Implement Task model and database schema
+
+
+
+
+
   - Create Mongoose Task schema with userId reference, title, description, status, priority fields
   - Add schema validation and default values
   - Create indexes for userId, status, and createdAt fields
