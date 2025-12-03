@@ -5,6 +5,7 @@ import passport from 'passport';
 import connectDB from './config/db.js';
 import configurePassport from './config/passport.js';
 import authRoutes from './routes/auth.js';
+import taskRoutes from './routes/tasks.js';
 
 // Load environment variables
 dotenv.config();
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
 
 // 404 handler
 app.use((req, res) => {

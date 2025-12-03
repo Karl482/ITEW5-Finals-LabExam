@@ -87,7 +87,12 @@
   - Generate JWT token for OAuth-authenticated users
   - _Requirements: 1.2, 1.3_
 
-- [ ] 8. Create protected task CRUD API endpoints
+- [x] 8. Create protected task CRUD API endpoints
+
+
+
+
+
   - Implement GET /api/tasks to fetch all tasks for authenticated user
   - Create POST /api/tasks endpoint to create new task with user association
   - Implement GET /api/tasks/:id to fetch specific task with ownership verification
