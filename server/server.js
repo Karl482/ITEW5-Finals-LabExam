@@ -8,6 +8,7 @@ import configurePassport from './config/passport.js';
 import { configureSocket } from './config/socket.js';
 import authRoutes from './routes/auth.js';
 import taskRoutes from './routes/tasks.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 // Load environment variables
 dotenv.config();
@@ -59,26 +60,11 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({
-    error: {
-      message: 'Route not found',
-      code: 'NOT_FOUND',
-    },
-  });
-});
+// 404 handler - must be after all routes
+app.use(notFoundHandler);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('Error:', err.stack);
-  res.status(err.status || 500).json({
-    error: {
-      message: err.message || 'Internal server error',
-      code: err.code || 'INTERNAL_ERROR',
-    },
-  });
-});
+// Centralized error handling middleware - must be last
+app.use(errorHandler);
 
 // Server configuration
 const PORT = process.env.PORT || 5000;

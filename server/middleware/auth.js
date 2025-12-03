@@ -1,5 +1,6 @@
 import { verifyToken } from '../utils/jwt.js';
 import User from '../models/User.js';
+import { ApiError } from './errorHandler.js';
 
 /**
  * Authentication middleware to verify JWT tokens
@@ -11,59 +12,29 @@ export const authMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      return res.status(401).json({
-        error: {
-          message: 'Authentication required. No token provided.',
-          code: 'NO_TOKEN'
-        }
-      });
+      throw new ApiError(401, 'Authentication required. No token provided.', 'NO_TOKEN');
     }
 
     // Check if the header follows the "Bearer <token>" format
     if (!authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({
-        error: {
-          message: 'Invalid authorization header format. Use "Bearer <token>".',
-          code: 'INVALID_AUTH_FORMAT'
-        }
-      });
+      throw new ApiError(401, 'Invalid authorization header format. Use "Bearer <token>".', 'INVALID_AUTH_FORMAT');
     }
 
     // Extract the token
     const token = authHeader.substring(7); // Remove "Bearer " prefix
 
     if (!token) {
-      return res.status(401).json({
-        error: {
-          message: 'Authentication required. Token is empty.',
-          code: 'EMPTY_TOKEN'
-        }
-      });
+      throw new ApiError(401, 'Authentication required. Token is empty.', 'EMPTY_TOKEN');
     }
 
-    // Verify the token
-    let decoded;
-    try {
-      decoded = verifyToken(token);
-    } catch (error) {
-      return res.status(401).json({
-        error: {
-          message: error.message,
-          code: 'TOKEN_VERIFICATION_FAILED'
-        }
-      });
-    }
+    // Verify the token (will throw JsonWebTokenError or TokenExpiredError if invalid)
+    const decoded = verifyToken(token);
 
     // Fetch user from database to ensure user still exists
     const user = await User.findById(decoded.id).select('-password');
 
     if (!user) {
-      return res.status(401).json({
-        error: {
-          message: 'User not found. Token may be invalid.',
-          code: 'USER_NOT_FOUND'
-        }
-      });
+      throw new ApiError(401, 'User not found. Token may be invalid.', 'USER_NOT_FOUND');
     }
 
     // Attach user information to request object
@@ -81,12 +52,7 @@ export const authMiddleware = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error('Authentication middleware error:', error);
-    return res.status(500).json({
-      error: {
-        message: 'Internal server error during authentication',
-        code: 'AUTH_INTERNAL_ERROR'
-      }
-    });
+    // Pass error to centralized error handler
+    next(error);
   }
 };
