@@ -4,6 +4,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 3px solid var(--championship-gold);
 }
 
 .nav-container {
@@ -22,6 +23,15 @@
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-brand h1::before {
+  content: '🏆';
+  font-size: 1.5rem;
 }
 
 .nav-links {
@@ -52,6 +62,8 @@
 .nav-links li a.active {
   background: var(--championship-gold);
   color: var(--dark-gray);
+  box-shadow: 0 2px 8px rgba(255, 183, 0, 0.4);
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {

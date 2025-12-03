@@ -173,24 +173,28 @@
 }
 
 .btn-primary {
-  background: var(--primary-blue);
+  background: linear-gradient(135deg, var(--primary-blue) 0%, #0052a3 100%);
   color: var(--white);
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #0052a3;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
 }
 
 .btn-secondary {
   background: var(--light-gray);
   color: var(--dark-gray);
+  border: 2px solid var(--light-gray);
 }
 
 .btn-secondary:hover:not(:disabled) {
   background: var(--stadium-gray);
   color: var(--white);
+  border-color: var(--stadium-gray);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
 }
 
 .btn:disabled {

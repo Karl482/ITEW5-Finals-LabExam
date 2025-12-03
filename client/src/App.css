@@ -33,6 +33,19 @@
   padding: 40px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-top: 4px solid var(--primary-blue);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0, 102, 204, 0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .page-container h2 {
@@ -84,10 +97,13 @@
   color: var(--white);
   border-radius: 6px;
   font-weight: 600;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .back-link:hover {
   background: var(--primary-blue);
   color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
 }
