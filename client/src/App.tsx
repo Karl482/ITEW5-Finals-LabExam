@@ -4,6 +4,7 @@ import { TaskProvider } from './context/TaskContext';
 import { useTask } from './context/TaskContext';
 import Navigation from './components/Navigation';
 import ConnectionStatus from './components/ConnectionStatus';
+import ServiceWorkerUpdate from './components/ServiceWorkerUpdate';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -20,6 +21,7 @@ function AppContent() {
       <div className="app">
         <Navigation />
         <ConnectionStatus isConnected={socketConnected} />
+        <ServiceWorkerUpdate />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<LoginPage />} />
