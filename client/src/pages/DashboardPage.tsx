@@ -8,7 +8,7 @@ import './DashboardPage.css';
 type FilterStatus = 'all' | 'todo' | 'in-progress' | 'completed';
 
 function DashboardPage() {
-  const { tasks, loading, error, fetchTasks, createTask, updateTask, deleteTask, clearError } = useTask();
+  const { tasks, loading, error, socketConnected, fetchTasks, createTask, updateTask, deleteTask, clearError } = useTask();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
 
@@ -50,7 +50,14 @@ function DashboardPage() {
         <div className="dashboard-header">
           <div className="dashboard-title">
             <h2>📊 Game Plan Dashboard</h2>
-            <p className="page-description">Manage your tasks and track your progress</p>
+            <p className="page-description">
+              Manage your tasks and track your progress
+              {socketConnected && (
+                <span className="realtime-badge" title="Real-time updates active">
+                  🔴 Live
+                </span>
+              )}
+            </p>
           </div>
           <button
             className="btn-create-task"
