@@ -45,6 +45,7 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     message: 'Sports PWA Task Manager API is running',
     timestamp: new Date().toISOString(),
+    version: '1.0.0',
   });
 });
 

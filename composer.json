@@ -3,5 +3,16 @@
   "description": "Sports-themed Progressive Web Application for task management",
   "type": "project",
   "require": {},
-  "require-dev": {}
+  "require-dev": {},
+  "scripts": {
+    "dev": [
+      "npm run dev"
+    ],
+    "install-deps": [
+      "npm run install:all"
+    ],
+    "build": [
+      "npm run build --prefix client"
+    ]
+  }
 }
