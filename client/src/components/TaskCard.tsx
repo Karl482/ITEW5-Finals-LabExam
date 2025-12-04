@@ -47,6 +47,8 @@ function TaskCard({ task, onDelete, onStatusChange }: TaskCardProps) {
     e.preventDefault();
     e.stopPropagation();
     
+    if (!task.status) return;
+    
     const statusOrder: Task['status'][] = ['todo', 'in-progress', 'completed'];
     const currentIndex = statusOrder.indexOf(task.status);
     const nextStatus = statusOrder[(currentIndex + 1) % statusOrder.length];
@@ -66,16 +68,16 @@ function TaskCard({ task, onDelete, onStatusChange }: TaskCardProps) {
   };
 
   return (
-    <div className={`task-card ${getStatusClass(task.status)}`}>
+    <div className={`task-card ${getStatusClass(task.status || 'todo')}`}>
       <Link to={`/tasks/${task.id}`} className="task-card-link">
         <div className="task-card-header">
           <div className="task-card-title">
-            <span className="status-icon">{getStatusIcon(task.status)}</span>
-            <h3>{task.title}</h3>
+            <span className="status-icon">{getStatusIcon(task.status || 'todo')}</span>
+            <h3>{task.title || 'Untitled Task'}</h3>
           </div>
           <div className="task-card-badges">
-            <span className={getPriorityClass(task.priority)}>
-              {getPriorityIcon(task.priority)} {task.priority}
+            <span className={getPriorityClass(task.priority || 'medium')}>
+              {getPriorityIcon(task.priority || 'medium')} {task.priority || 'medium'}
             </span>
           </div>
         </div>
@@ -86,8 +88,8 @@ function TaskCard({ task, onDelete, onStatusChange }: TaskCardProps) {
 
         <div className="task-card-footer">
           <div className="task-card-meta">
-            <span className={getStatusClass(task.status)}>
-              {task.status.replace('-', ' ')}
+            <span className={getStatusClass(task.status || 'todo')}>
+              {(task.status || 'todo').replace('-', ' ')}
             </span>
             {task.dueDate && (
               <span className="task-due-date">

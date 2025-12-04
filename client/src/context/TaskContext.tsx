@@ -221,13 +221,15 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   const handleTaskCreated = useCallback((data: { task: Task }) => {
     console.log('Real-time: Task created', data.task);
     setTaskState((prev) => {
+      // Ensure tasks is an array
+      const taskList = Array.isArray(prev.tasks) ? prev.tasks : [];
       // Check if task already exists to avoid duplicates
-      const exists = prev.tasks.some((t) => t.id === data.task.id);
+      const exists = taskList.some((t) => t.id === data.task.id);
       if (exists) return prev;
       
       return {
         ...prev,
-        tasks: [...prev.tasks, data.task],
+        tasks: [...taskList, data.task],
       };
     });
   }, []);
@@ -237,10 +239,13 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
    */
   const handleTaskUpdated = useCallback((data: { task: Task }) => {
     console.log('Real-time: Task updated', data.task);
-    setTaskState((prev) => ({
-      ...prev,
-      tasks: prev.tasks.map((t) => (t.id === data.task.id ? data.task : t)),
-    }));
+    setTaskState((prev) => {
+      const taskList = Array.isArray(prev.tasks) ? prev.tasks : [];
+      return {
+        ...prev,
+        tasks: taskList.map((t) => (t.id === data.task.id ? data.task : t)),
+      };
+    });
   }, []);
 
   /**
@@ -248,10 +253,13 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
    */
   const handleTaskDeleted = useCallback((data: { taskId: string }) => {
     console.log('Real-time: Task deleted', data.taskId);
-    setTaskState((prev) => ({
-      ...prev,
-      tasks: prev.tasks.filter((t) => t.id !== data.taskId),
-    }));
+    setTaskState((prev) => {
+      const taskList = Array.isArray(prev.tasks) ? prev.tasks : [];
+      return {
+        ...prev,
+        tasks: taskList.filter((t) => t.id !== data.taskId),
+      };
+    });
   }, []);
 
   /**
@@ -373,13 +381,23 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   }, [isAuthenticated, updateQueueCount]);
 
   /**
-   * Set up socket connection and event listeners
+   * Set up socket connection (only once when authenticated)
    */
   useEffect(() => {
     if (isAuthenticated && token) {
       // Connect socket with JWT token
       socketService.connect(token);
+    } else {
+      // Disconnect socket if not authenticated
+      socketService.disconnect();
+    }
+  }, [isAuthenticated, token]);
 
+  /**
+   * Set up socket event listeners
+   */
+  useEffect(() => {
+    if (isAuthenticated && token) {
       // Subscribe to task events
       socketService.onTaskCreated(handleTaskCreated);
       socketService.onTaskUpdated(handleTaskUpdated);
@@ -388,17 +406,13 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
       // Subscribe to connection status
       socketService.onConnectionStatusChange(handleConnectionStatus);
 
-      // Cleanup on unmount or when auth changes
+      // Cleanup: only unsubscribe from events, don't disconnect socket
       return () => {
         socketService.offTaskCreated(handleTaskCreated);
         socketService.offTaskUpdated(handleTaskUpdated);
         socketService.offTaskDeleted(handleTaskDeleted);
         socketService.offConnectionStatusChange(handleConnectionStatus);
-        socketService.disconnect();
       };
-    } else {
-      // Disconnect socket if not authenticated
-      socketService.disconnect();
     }
   }, [isAuthenticated, token, handleTaskCreated, handleTaskUpdated, handleTaskDeleted, handleConnectionStatus]);
 
@@ -449,7 +463,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
           updatedAt: new Date().toISOString(),
         };
         
-        const updatedTasks = [...taskState.tasks, optimisticTask];
+        const taskList = Array.isArray(taskState.tasks) ? taskState.tasks : [];
+        const updatedTasks = [...taskList, optimisticTask];
         saveTasksToCache(updatedTasks);
         await updateQueueCount();
         
@@ -475,7 +490,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     // Online: create immediately
     try {
       const newTask = await createTaskAPI(taskData);
-      const updatedTasks = [...taskState.tasks, newTask];
+      const taskList = Array.isArray(taskState.tasks) ? taskState.tasks : [];
+      const updatedTasks = [...taskList, newTask];
       saveTasksToCache(updatedTasks);
       setTaskState((prev) => ({
         ...prev,
@@ -511,7 +527,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         });
         
         // Update task optimistically in UI
-        const updatedTasks = taskState.tasks.map((task) => {
+        const taskList = Array.isArray(taskState.tasks) ? taskState.tasks : [];
+        const updatedTasks = taskList.map((task) => {
           if (task.id === id) {
             return {
               ...task,
@@ -547,7 +564,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     // Online: update immediately
     try {
       const updatedTask = await updateTaskAPI(id, taskData);
-      const updatedTasks = taskState.tasks.map((task) => (task.id === id ? updatedTask : task));
+      const taskList = Array.isArray(taskState.tasks) ? taskState.tasks : [];
+      const updatedTasks = taskList.map((task) => (task.id === id ? updatedTask : task));
       saveTasksToCache(updatedTasks);
       setTaskState((prev) => ({
         ...prev,
@@ -582,7 +600,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         });
         
         // Remove task optimistically from UI
-        const updatedTasks = taskState.tasks.filter((task) => task.id !== id);
+        const taskList = Array.isArray(taskState.tasks) ? taskState.tasks : [];
+        const updatedTasks = taskList.filter((task) => task.id !== id);
         saveTasksToCache(updatedTasks);
         await updateQueueCount();
         
@@ -608,7 +627,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     // Online: delete immediately
     try {
       await deleteTaskAPI(id);
-      const updatedTasks = taskState.tasks.filter((task) => task.id !== id);
+      const taskList = Array.isArray(taskState.tasks) ? taskState.tasks : [];
+      const updatedTasks = taskList.filter((task) => task.id !== id);
       saveTasksToCache(updatedTasks);
       setTaskState((prev) => ({
         ...prev,

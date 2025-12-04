@@ -8,22 +8,12 @@ class SocketService {
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private connectionStatusCallbacks: ((connected: boolean) => void)[] = [];
+  private currentToken: string | null = null;
 
   /**
    * Initialize socket connection with JWT authentication
    */
   connect(token: string): void {
-    // If already connected with same token, don't reconnect
-    if (this.socket?.connected) {
-      console.log('Socket already connected');
-      return;
-    }
-
-    // Disconnect existing socket if any
-    if (this.socket) {
-      this.socket.disconnect();
-    }
-
     // Validate token before connecting
     if (!token || token.trim() === '') {
       console.error('Cannot connect socket: Invalid token');
@@ -31,7 +21,23 @@ class SocketService {
       return;
     }
 
+    // If already connected, just ensure it's active
+    if (this.socket?.connected) {
+      console.log('Socket already connected');
+      return;
+    }
+
+    // If socket exists but disconnected, try to reconnect
+    if (this.socket && !this.socket.connected) {
+      console.log('Reconnecting existing socket...');
+      this.socket.connect();
+      return;
+    }
+
     console.log('Initializing socket connection...');
+
+    // Store token for reconnection
+    this.currentToken = token;
 
     this.socket = io(SOCKET_URL, {
       auth: {
@@ -47,6 +53,7 @@ class SocketService {
     });
 
     this.setupEventHandlers();
+    this.setupNetworkHandlers();
   }
 
   /**
@@ -96,6 +103,26 @@ class SocketService {
     this.socket.on('error', (error) => {
       console.error('Socket error:', error);
     });
+  }
+
+  /**
+   * Set up network online/offline handlers
+   */
+  private setupNetworkHandlers(): void {
+    const handleOnline = () => {
+      console.log('🌐 Network back online, reconnecting socket...');
+      if (this.socket && !this.socket.connected) {
+        this.reconnectAttempts = 0;
+        this.socket.connect();
+      }
+    };
+
+    const handleOffline = () => {
+      console.log('🌐 Network offline');
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
   }
 
   /**
@@ -169,6 +196,7 @@ class SocketService {
     if (this.socket) {
       this.socket.disconnect();
       this.socket = null;
+      this.currentToken = null;
       this.connectionStatusCallbacks = [];
       console.log('Socket disconnected manually');
     }
