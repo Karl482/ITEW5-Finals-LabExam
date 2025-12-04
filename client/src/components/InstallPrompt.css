@@ -1,0 +1,191 @@
+/* Install Prompt Component - Sports Theme */
+
+.install-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: slideUp 0.4s ease-out;
+  max-width: 500px;
+  width: calc(100% - 40px);
+}
+
+.install-prompt-content {
+  background: linear-gradient(135deg, #0066CC 0%, #0052A3 100%);
+  border: 2px solid #FFB700;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: white;
+}
+
+.install-prompt-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  animation: bounce 2s infinite;
+}
+
+.install-prompt-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.install-prompt-text h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFB700;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.install-prompt-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+}
+
+.install-prompt-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.install-button {
+  background: linear-gradient(135deg, #FFB700 0%, #FFA000 100%);
+  color: #0066CC;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 183, 0, 0.3);
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.install-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 183, 0, 0.5);
+  background: linear-gradient(135deg, #FFC107 0%, #FFB700 100%);
+}
+
+.install-button:active {
+  transform: translateY(0);
+}
+
+.dismiss-button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.dismiss-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.dismiss-button:active {
+  transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 100px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .install-prompt {
+    bottom: 10px;
+    width: calc(100% - 20px);
+  }
+
+  .install-prompt-content {
+    padding: 12px 16px;
+    gap: 12px;
+  }
+
+  .install-prompt-icon {
+    font-size: 2rem;
+  }
+
+  .install-prompt-text h3 {
+    font-size: 1rem;
+  }
+
+  .install-prompt-text p {
+    font-size: 0.85rem;
+  }
+
+  .install-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .dismiss-button {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .install-prompt {
+    animation: none;
+  }
+
+  .install-prompt-icon {
+    animation: none;
+  }
+
+  .install-button,
+  .dismiss-button {
+    transition: none;
+  }
+}
+
+/* Focus states for keyboard navigation */
+.install-button:focus,
+.dismiss-button:focus {
+  outline: 2px solid #FFB700;
+  outline-offset: 2px;
+}

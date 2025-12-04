@@ -8,6 +8,7 @@ import OfflineIndicator from './components/OfflineIndicator';
 import OfflineSyncIndicator from './components/OfflineSyncIndicator';
 import SyncDebugPanel from './components/SyncDebugPanel';
 import ServiceWorkerUpdate from './components/ServiceWorkerUpdate';
+import InstallPrompt from './components/InstallPrompt';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -32,6 +33,7 @@ function AppContent() {
         />
         <SyncDebugPanel />
         <ServiceWorkerUpdate />
+        <InstallPrompt />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<LoginPage />} />
