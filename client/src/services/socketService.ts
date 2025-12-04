@@ -209,6 +209,12 @@ class SocketService {
     if (this.socket && !this.socket.connected) {
       console.log('Manually reconnecting socket...');
       this.reconnectAttempts = 0; // Reset attempts
+      
+      // Update auth token if available
+      if (this.currentToken) {
+        this.socket.auth = { token: this.currentToken };
+      }
+      
       this.socket.connect();
     }
   }
