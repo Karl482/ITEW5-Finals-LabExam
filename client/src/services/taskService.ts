@@ -33,7 +33,8 @@ export interface UpdateTaskData {
  */
 export const getTasks = async (): Promise<Task[]> => {
   const response = await api.get('/api/tasks');
-  return response.data;
+  // Backend returns {count, tasks}, we need just the tasks array
+  return response.data.tasks || response.data;
 };
 
 /**

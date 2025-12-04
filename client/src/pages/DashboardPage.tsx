@@ -17,7 +17,13 @@ function DashboardPage() {
   }, [fetchTasks]);
 
   const handleCreateTask = async (taskData: CreateTaskData) => {
-    await createTask(taskData);
+    console.log('🎯 Dashboard: Creating task', taskData);
+    const result = await createTask(taskData);
+    if (result) {
+      console.log('✅ Dashboard: Task created successfully', result);
+    } else {
+      console.error('❌ Dashboard: Task creation failed');
+    }
   };
 
   const handleStatusChange = async (id: string, status: Task['status']) => {
@@ -168,9 +174,9 @@ function DashboardPage() {
             </div>
           ) : (
             <div className="tasks-list">
-              {filteredTasks.map((task) => (
+              {filteredTasks.map((task, index) => (
                 <TaskCard
-                  key={task.id}
+                  key={task?.id || `task-${index}`}
                   task={task}
                   onStatusChange={handleStatusChange}
                   onDelete={handleDeleteTask}

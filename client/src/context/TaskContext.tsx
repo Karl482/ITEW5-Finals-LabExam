@@ -274,10 +274,12 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
    * Fetch all tasks for the authenticated user
    */
   const fetchTasks = useCallback(async () => {
+    console.log('📥 Fetching tasks from server...');
     setTaskState((prev) => ({ ...prev, loading: true, error: null, isUsingCachedData: false }));
     
     // If offline, try to load from cache
     if (!navigator.onLine) {
+      console.log('📴 Offline: Loading from cache');
       const cachedTasks = loadTasksFromCache();
       if (cachedTasks) {
         console.log('Loading tasks from cache (offline mode)');
@@ -303,6 +305,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     // Online: fetch from server
     try {
       const tasks = await getTasks();
+      console.log(`✅ Fetched ${Array.isArray(tasks) ? tasks.length : 0} tasks from server:`, tasks);
       saveTasksToCache(tasks);
       setTaskState((prev) => ({
         ...prev,
@@ -312,6 +315,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         isUsingCachedData: false,
       }));
     } catch (error) {
+      console.error('❌ Failed to fetch tasks:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tasks';
       
       // If fetch fails, try to load from cache as fallback
@@ -445,10 +449,12 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
    * Create a new task
    */
   const createTask = useCallback(async (taskData: CreateTaskData): Promise<Task | null> => {
+    console.log('📝 Creating task:', taskData);
     setTaskState((prev) => ({ ...prev, loading: true, error: null }));
     
     // If offline, queue the operation
     if (!navigator.onLine) {
+      console.log('📴 Offline: Queueing task creation');
       try {
         await syncQueueService.addOperation({
           type: 'create',
@@ -494,16 +500,22 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     
     // Online: create immediately
     try {
+      console.log('🌐 Online: Creating task via API');
       const newTask = await createTaskAPI(taskData);
+      console.log('✅ Task created successfully:', newTask);
+      
       const taskList = Array.isArray(taskState.tasks) ? taskState.tasks : [];
       const updatedTasks = [...taskList, newTask];
       saveTasksToCache(updatedTasks);
+      
       setTaskState((prev) => ({
         ...prev,
         tasks: updatedTasks,
         loading: false,
         error: null,
       }));
+      
+      console.log('✅ Task added to state, total tasks:', updatedTasks.length);
       return newTask;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to create task';
