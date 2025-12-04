@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Logo from './Logo';
 import './Navigation.css';
 
 function Navigation() {
@@ -20,7 +21,7 @@ function Navigation() {
       <div className="nav-container">
         <div className="nav-brand">
           <Link to={isAuthenticated ? "/dashboard" : "/"}>
-            <h1>⚽ Sports Task Manager</h1>
+            <Logo size="small" showText={true} />
           </Link>
         </div>
         <ul className="nav-links">

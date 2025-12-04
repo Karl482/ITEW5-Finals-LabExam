@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Logo from '../components/Logo';
 import './RegisterPage.css';
 
 function RegisterPage() {
@@ -104,6 +105,9 @@ function RegisterPage() {
   return (
     <div className="page register-page">
       <div className="page-container">
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+          <Logo size="large" showText={false} />
+        </div>
         <h2>🏆 Team Signup</h2>
         <p className="page-description">Create your account to start managing tasks</p>
         

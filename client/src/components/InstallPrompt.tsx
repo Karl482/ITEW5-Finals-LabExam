@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Logo from './Logo';
 import './InstallPrompt.css';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -84,7 +85,9 @@ const InstallPrompt = () => {
   return (
     <div className="install-prompt">
       <div className="install-prompt-content">
-        <div className="install-prompt-icon">🏆</div>
+        <div className="install-prompt-icon">
+          <Logo size="medium" showText={false} />
+        </div>
         <div className="install-prompt-text">
           <h3>Install Sports Task Manager</h3>
           <p>Get quick access from your home screen and use offline!</p>

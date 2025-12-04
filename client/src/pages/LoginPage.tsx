@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import InstallButton from '../components/InstallButton';
+import Logo from '../components/Logo';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -92,6 +93,9 @@ function LoginPage() {
   return (
     <div className="page login-page">
       <div className="page-container">
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+          <Logo size="large" showText={false} />
+        </div>
         <h2>🏟️ Stadium Entrance</h2>
         <p className="page-description">Login to access your task management dashboard</p>
         

@@ -76,68 +76,61 @@
       canvas.width = size;
       canvas.height = size;
       
-      // Background
+      // Background with rounded corners
       ctx.fillStyle = '#0066CC';
-      ctx.fillRect(0, 0, size, size);
-      
-      // Scale factor
-      const scale = size / 192;
-      ctx.scale(scale, scale);
-      
-      // Trophy
-      const centerX = 96;
-      const centerY = 96;
-      
-      // Trophy cup
-      ctx.fillStyle = '#FFB700';
-      ctx.strokeStyle = '#FFC107';
-      ctx.lineWidth = 2;
+      const cornerRadius = size / 8;
       ctx.beginPath();
-      ctx.moveTo(centerX - 40, centerY - 50);
-      ctx.lineTo(centerX - 50, centerY - 30);
-      ctx.lineTo(centerX - 40, centerY);
-      ctx.lineTo(centerX + 40, centerY);
-      ctx.lineTo(centerX + 50, centerY - 30);
-      ctx.lineTo(centerX + 40, centerY - 50);
+      ctx.moveTo(cornerRadius, 0);
+      ctx.lineTo(size - cornerRadius, 0);
+      ctx.quadraticCurveTo(size, 0, size, cornerRadius);
+      ctx.lineTo(size, size - cornerRadius);
+      ctx.quadraticCurveTo(size, size, size - cornerRadius, size);
+      ctx.lineTo(cornerRadius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - cornerRadius);
+      ctx.lineTo(0, cornerRadius);
+      ctx.quadraticCurveTo(0, 0, cornerRadius, 0);
       ctx.closePath();
       ctx.fill();
-      ctx.stroke();
       
-      // Trophy handles
-      ctx.strokeStyle = '#FFB700';
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(centerX - 50, centerY - 40);
-      ctx.quadraticCurveTo(centerX - 65, centerY - 40, centerX - 65, centerY - 25);
-      ctx.quadraticCurveTo(centerX - 65, centerY - 10, centerX - 50, centerY - 10);
-      ctx.stroke();
+      // Volleyball (Lucide icon)
+      const centerX = size / 2;
+      const centerY = size / 2;
+      const radius = size * 0.35;
       
-      ctx.beginPath();
-      ctx.moveTo(centerX + 50, centerY - 40);
-      ctx.quadraticCurveTo(centerX + 65, centerY - 40, centerX + 65, centerY - 25);
-      ctx.quadraticCurveTo(centerX + 65, centerY - 10, centerX + 50, centerY - 10);
-      ctx.stroke();
-      
-      // Trophy base
-      ctx.fillStyle = '#FFB700';
-      ctx.fillRect(centerX - 30, centerY, 60, 8);
-      ctx.fillRect(centerX - 35, centerY + 8, 70, 12);
-      
-      // Checkmark
-      ctx.strokeStyle = '#0066CC';
-      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = size * 0.04;
       ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      
+      // Circle
       ctx.beginPath();
-      ctx.moveTo(centerX - 15, centerY - 30);
-      ctx.lineTo(centerX - 5, centerY - 20);
-      ctx.lineTo(centerX + 15, centerY - 40);
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.stroke();
       
-      // Text
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 20px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('TASKS', centerX, 160);
+      // Diagonal line (top-left to bottom-right)
+      const diag = radius * 0.707; // cos(45°) * radius
+      ctx.beginPath();
+      ctx.moveTo(centerX - diag, centerY - diag);
+      ctx.lineTo(centerX + diag, centerY + diag);
+      ctx.stroke();
+      
+      // Diagonal line (top-right to bottom-left)
+      ctx.beginPath();
+      ctx.moveTo(centerX + diag, centerY - diag);
+      ctx.lineTo(centerX - diag, centerY + diag);
+      ctx.stroke();
+      
+      // Vertical line
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY - radius);
+      ctx.lineTo(centerX, centerY + radius);
+      ctx.stroke();
+      
+      // Horizontal line
+      ctx.beginPath();
+      ctx.moveTo(centerX - radius, centerY);
+      ctx.lineTo(centerX + radius, centerY);
+      ctx.stroke();
     }
     
     function generateIcons() {

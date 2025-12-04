@@ -2,20 +2,19 @@
   <!-- Background -->
   <rect width="32" height="32" fill="#0066CC" rx="4"/>
   
-  <!-- Trophy Icon -->
+  <!-- Volleyball -->
   <g transform="translate(16, 16)">
-    <!-- Trophy Cup -->
-    <path d="M -6 -8 L -8 -5 L -6 0 L 6 0 L 8 -5 L 6 -8 Z" fill="#FFB700"/>
+    <!-- Main circle -->
+    <circle cx="0" cy="0" r="9" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
     
-    <!-- Trophy Handles -->
-    <path d="M -8 -6 Q -10 -6 -10 -4 Q -10 -2 -8 -2" fill="none" stroke="#FFB700" stroke-width="0.5"/>
-    <path d="M 8 -6 Q 10 -6 10 -4 Q 10 -2 8 -2" fill="none" stroke="#FFB700" stroke-width="0.5"/>
+    <!-- Volleyball pattern -->
+    <!-- Left curved panel -->
+    <path d="M -6.36 -6.36 Q -3 -3 -6.36 6.36" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
     
-    <!-- Trophy Base -->
-    <rect x="-5" y="0" width="10" height="2" fill="#FFB700"/>
-    <rect x="-6" y="2" width="12" height="2" fill="#FFB700"/>
+    <!-- Right curved panel -->
+    <path d="M 6.36 -6.36 Q 3 -3 6.36 6.36" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
     
-    <!-- Checkmark -->
-    <path d="M -2 -5 L -1 -4 L 2 -7" fill="none" stroke="#0066CC" stroke-width="1" stroke-linecap="round"/>
+    <!-- Top curved panel -->
+    <path d="M -6.36 -6.36 Q 0 -4 6.36 -6.36" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
   </g>
 </svg>

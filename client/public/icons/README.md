@@ -1,40 +1,81 @@
-# PWA Icons
+# PWA Icons - Volleyball Theme 🏐
 
-This directory contains the icons for the Sports Task Manager PWA.
+## Overview
+This directory contains the PWA icons for the Sports Task Manager app, featuring a volleyball design.
 
-## Current Icons
+## Files
 
-- `icon-192x192.svg` - SVG version of the 192x192 icon
-- `icon-512x512.svg` - SVG version of the 512x512 icon
+### SVG Source Files
+- `icon-192x192.svg` - 192x192 volleyball icon (SVG)
+- `icon-512x512.svg` - 512x512 volleyball icon (SVG)
+- `favicon.svg` - 32x32 favicon (referenced in index.html)
 
-## Generating PNG Icons
+### PNG Files (Generated)
+- `icon-192x192.png` - 192x192 volleyball icon (PNG)
+- `icon-512x512.png` - 512x512 volleyball icon (PNG)
 
-To generate PNG icons from the SVG files, you can use one of these methods:
-
-### Method 1: Using ImageMagick (Command Line)
-```bash
-magick convert -background none -resize 192x192 icon-192x192.svg icon-192x192.png
-magick convert -background none -resize 512x512 icon-512x512.svg icon-512x512.png
-```
-
-### Method 2: Using Online Tools
-1. Visit https://cloudconvert.com/svg-to-png
-2. Upload the SVG files
-3. Convert to PNG at the specified dimensions
-4. Download and place in this directory
-
-### Method 3: Using Node.js (sharp library)
-```bash
-npm install sharp
-node generate-icons.js
-```
+### Generation Scripts
+- `convert-svg-to-png.cjs` - Node.js script to convert SVG to PNG using sharp
+- `generate-icons.html` - Browser-based icon generator (alternative method)
 
 ## Icon Design
+The volleyball icon features:
+- Blue background (#0066CC) matching the app theme
+- White volleyball with classic curved panel design
+- Clean, modern line art style
+- Rounded corners for modern app appearance
 
-The icons feature:
-- Sports blue background (#0066CC)
-- Gold trophy with checkmark (task completion)
-- Victory green stars (achievement)
-- Bold, athletic styling
+## Usage in PWA
 
-The design represents task management through sports metaphors - winning, achievement, and completion.
+### Manifest (manifest.json)
+The icons are referenced in `/public/manifest.json`:
+```json
+"icons": [
+  {
+    "src": "/icons/icon-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png",
+    "purpose": "any maskable"
+  },
+  {
+    "src": "/icons/icon-512x512.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }
+]
+```
+
+### HTML (index.html)
+- Favicon: `<link rel="icon" type="image/svg+xml" href="/favicon.svg" />`
+- Apple Touch Icon: `<link rel="apple-touch-icon" href="/icons/icon-192x192.png" />`
+
+## Where Icons Appear
+✅ Browser tab (favicon)
+✅ PWA installation screen
+✅ Home screen icon (mobile)
+✅ App switcher (mobile)
+✅ Splash screen
+✅ Desktop shortcut icon
+
+## Regenerating Icons
+
+If you need to regenerate the PNG files from SVG:
+
+### Method 1: Node.js (Recommended)
+```bash
+npm install sharp
+node client/public/icons/convert-svg-to-png.cjs
+```
+
+### Method 2: Browser
+1. Open `generate-icons.html` in a browser
+2. Click "Generate Icons"
+3. Download the generated PNG files
+
+## Customization
+
+To change the icon design:
+1. Edit the SVG files (`icon-192x192.svg`, `icon-512x512.svg`, `favicon.svg`)
+2. Run the conversion script to generate new PNGs
+3. Clear browser cache and reinstall PWA to see changes
