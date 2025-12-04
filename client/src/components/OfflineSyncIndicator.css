@@ -1,0 +1,94 @@
+/* Offline Sync Indicator Styles */
+
+.offline-sync-indicator {
+  position: fixed;
+  bottom: 100px; /* Position above OfflineIndicator */
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1001; /* Above OfflineIndicator */
+  animation: slideInUp 0.3s ease-out;
+  max-width: 350px;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.offline-sync-indicator.syncing {
+  background: linear-gradient(135deg, #0066CC 0%, #0052A3 100%);
+}
+
+.offline-sync-indicator.error {
+  background: linear-gradient(135deg, #DC3545 0%, #C82333 100%);
+}
+
+.sync-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sync-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sync-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+.sync-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Animations */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .offline-sync-indicator {
+    bottom: 170px; /* Above mobile navigation and offline indicator */
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    padding: 10px 16px;
+  }
+
+  .sync-text {
+    font-size: 13px;
+  }
+
+  .sync-icon {
+    font-size: 18px;
+  }
+}
+
+/* Hover effect */
+.offline-sync-indicator:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}

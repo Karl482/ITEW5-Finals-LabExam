@@ -5,6 +5,8 @@ import { useTask } from './context/TaskContext';
 import Navigation from './components/Navigation';
 import ConnectionStatus from './components/ConnectionStatus';
 import OfflineIndicator from './components/OfflineIndicator';
+import OfflineSyncIndicator from './components/OfflineSyncIndicator';
+import SyncDebugPanel from './components/SyncDebugPanel';
 import ServiceWorkerUpdate from './components/ServiceWorkerUpdate';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
@@ -15,7 +17,7 @@ import TaskDetailPage from './pages/TaskDetailPage';
 import './App.css';
 
 function AppContent() {
-  const { socketConnected, isOnline, isUsingCachedData } = useTask();
+  const { socketConnected, isOnline, isUsingCachedData, queuedOperationsCount, isSyncing, syncError } = useTask();
 
   return (
     <Router>
@@ -23,6 +25,12 @@ function AppContent() {
         <Navigation />
         <ConnectionStatus isConnected={socketConnected} />
         <OfflineIndicator isOnline={isOnline} isUsingCachedData={isUsingCachedData} />
+        <OfflineSyncIndicator 
+          queueCount={queuedOperationsCount} 
+          isSyncing={isSyncing} 
+          syncError={syncError} 
+        />
+        <SyncDebugPanel />
         <ServiceWorkerUpdate />
         <main className="main-content">
           <Routes>
