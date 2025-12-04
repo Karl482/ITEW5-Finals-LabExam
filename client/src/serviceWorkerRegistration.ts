@@ -24,8 +24,27 @@ export function registerServiceWorker(config?: ServiceWorkerConfig) {
   // Only register in production or if explicitly enabled in dev
   if (import.meta.env.DEV && !import.meta.env.VITE_SW_DEV) {
     console.log('Service worker registration skipped in development mode');
+    return; // Exit early in dev mode
   }
 
+  // Check if service worker file exists before registering
+  fetch('/sw.js', { method: 'HEAD' })
+    .then(response => {
+      const contentType = response.headers.get('content-type');
+      if (!response.ok || !contentType || !contentType.includes('javascript')) {
+        console.log('Service worker not available yet (will be generated during build)');
+        return;
+      }
+      
+      // Service worker file exists and has correct MIME type, proceed with registration
+      initializeServiceWorker(config);
+    })
+    .catch(() => {
+      console.log('Service worker not available in development mode');
+    });
+}
+
+function initializeServiceWorker(config?: ServiceWorkerConfig) {
   wb = new Workbox('/sw.js');
 
   // Event: Service worker installed and ready to cache content

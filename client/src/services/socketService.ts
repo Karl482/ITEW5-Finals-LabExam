@@ -13,10 +13,25 @@ class SocketService {
    * Initialize socket connection with JWT authentication
    */
   connect(token: string): void {
+    // If already connected with same token, don't reconnect
     if (this.socket?.connected) {
       console.log('Socket already connected');
       return;
     }
+
+    // Disconnect existing socket if any
+    if (this.socket) {
+      this.socket.disconnect();
+    }
+
+    // Validate token before connecting
+    if (!token || token.trim() === '') {
+      console.error('Cannot connect socket: Invalid token');
+      this.notifyConnectionStatus(false);
+      return;
+    }
+
+    console.log('Initializing socket connection...');
 
     this.socket = io(SOCKET_URL, {
       auth: {
@@ -27,6 +42,8 @@ class SocketService {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       reconnectionAttempts: this.maxReconnectAttempts,
+      timeout: 10000, // 10 second connection timeout
+      transports: ['websocket', 'polling'], // Try websocket first, fallback to polling
     });
 
     this.setupEventHandlers();
@@ -53,9 +70,13 @@ class SocketService {
     this.socket.on('connect_error', (error) => {
       console.error('Socket connection error:', error.message);
       this.reconnectAttempts++;
+      this.notifyConnectionStatus(false);
       
       if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-        console.error('Max reconnection attempts reached');
+        console.error('Max reconnection attempts reached. Please check:');
+        console.error('1. Server is running on', SOCKET_URL);
+        console.error('2. Authentication token is valid');
+        console.error('3. Network connection is stable');
       }
     });
 
@@ -158,8 +179,31 @@ class SocketService {
    */
   reconnect(): void {
     if (this.socket && !this.socket.connected) {
+      console.log('Manually reconnecting socket...');
+      this.reconnectAttempts = 0; // Reset attempts
       this.socket.connect();
     }
+  }
+
+  /**
+   * Reconnect with a new token (useful when token is refreshed)
+   */
+  reconnectWithToken(token: string): void {
+    console.log('Reconnecting with new token...');
+    this.disconnect();
+    this.reconnectAttempts = 0;
+    this.connect(token);
+  }
+
+  /**
+   * Get current connection status details
+   */
+  getConnectionInfo(): { connected: boolean; attempts: number; socketId?: string } {
+    return {
+      connected: this.socket?.connected || false,
+      attempts: this.reconnectAttempts,
+      socketId: this.socket?.id,
+    };
   }
 }
 

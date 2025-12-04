@@ -62,6 +62,7 @@ Success Rate: 100.0%
 | **[PWA_MANUAL_TEST_CHECKLIST.md](PWA_MANUAL_TEST_CHECKLIST.md)** | Manual testing checklist |
 | **[E2E_TESTING_README.md](E2E_TESTING_README.md)** | Comprehensive documentation |
 | **[TASK_29_COMPLETION_SUMMARY.md](TASK_29_COMPLETION_SUMMARY.md)** | Task completion summary |
+| **[PWA_FIXES_APPLIED.md](PWA_FIXES_APPLIED.md)** | PWA configuration fixes |
 
 ## 🧪 Test Files
 
