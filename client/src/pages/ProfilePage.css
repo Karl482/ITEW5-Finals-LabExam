@@ -402,3 +402,32 @@
     font-size: 0.85rem;
   }
 }
+
+
+/* Install Button in Settings */
+.setting-action {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.setting-item {
+  flex-wrap: wrap;
+}
+
+.setting-item .setting-action {
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (min-width: 768px) {
+  .setting-item {
+    flex-wrap: nowrap;
+  }
+  
+  .setting-item .setting-action {
+    width: auto;
+    margin-top: 0;
+  }
+}

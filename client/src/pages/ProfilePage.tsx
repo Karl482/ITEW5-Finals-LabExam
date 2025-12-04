@@ -1,6 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import InstallButton from '../components/InstallButton';
 import './ProfilePage.css';
 
 function ProfilePage() {
@@ -104,6 +105,11 @@ function ProfilePage() {
                   )}
                 </div>
               </div>
+              {!isPWAInstalled && (
+                <div className="setting-action">
+                  <InstallButton variant="secondary" size="small" />
+                </div>
+              )}
             </div>
 
             <div className="setting-item">

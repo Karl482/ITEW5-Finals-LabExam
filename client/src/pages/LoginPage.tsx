@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import InstallButton from '../components/InstallButton';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -151,6 +152,9 @@ function LoginPage() {
           <p>
             Don't have an account? <Link to="/register">Sign up here</Link>
           </p>
+          <div className="install-section">
+            <InstallButton variant="outline" size="medium" />
+          </div>
         </div>
       </div>
     </div>

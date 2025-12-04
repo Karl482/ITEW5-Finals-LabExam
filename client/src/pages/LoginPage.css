@@ -170,3 +170,13 @@
   font-size: 0.875rem;
   font-weight: 600;
 }
+
+
+/* Install Section */
+.login-page .install-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--light-gray);
+  display: flex;
+  justify-content: center;
+}
